@@ -22,8 +22,17 @@ export default {
   },
   methods: {
     handleLogin() {
-      // 登录逻辑处理（如调用API）
-      console.log('登录数据:', this.form);
+      const users = JSON.parse(localStorage.getItem('users') || '[]')
+      const user = users.find(
+        (u) => u.email === this.form.email && u.password === this.form.password
+      )
+      if (user) {
+        localStorage.setItem('currentUser', JSON.stringify(user))
+        alert('登录成功')
+        this.$router.push('/home')
+      } else {
+        alert('邮箱或密码错误')
+      }
     }
   }
 };

@@ -24,8 +24,15 @@ export default {
   },
   methods: {
     handleRegister() {
-      // 注册逻辑处理（如调用API）
-      console.log('注册数据:', this.form);
+      const users = JSON.parse(localStorage.getItem('users') || '[]')
+      if (users.some((u) => u.email === this.form.email)) {
+        alert('邮箱已存在')
+        return
+      }
+      users.push({ ...this.form })
+      localStorage.setItem('users', JSON.stringify(users))
+      alert('注册成功，请登录')
+      this.$router.push('/login')
     }
   }
 };
