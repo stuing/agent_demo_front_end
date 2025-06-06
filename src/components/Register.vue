@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import api from '../api.js'
 export default {
   data() {
     return {
@@ -27,22 +28,12 @@ export default {
   methods: {
     async handleRegister() {
       try {
-        const res = await fetch('http://localhost:8080/api/accounts', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            username: this.form.username,
-            password: this.form.password,
-            email: this.form.email,
-            phone: this.form.phone
-          })
+        await api.post('/accounts', {
+          username: this.form.username,
+          password: this.form.password,
+          email: this.form.email,
+          phone: this.form.phone
         })
-        if (!res.ok) {
-          const text = await res.text()
-          throw new Error(text || '注册失败')
-        }
         alert('注册成功，请登录')
         this.$router.push('/login')
       } catch (err) {
